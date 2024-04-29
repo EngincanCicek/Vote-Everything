@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Vote Everything</string>
+    <string name="login_button_text">Continue with Google</string>
 </resources>

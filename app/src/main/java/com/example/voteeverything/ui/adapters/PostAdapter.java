@@ -19,11 +19,11 @@ import java.util.List;
 public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder> implements Filterable {
 
     private List<Post> postList;
-    private List<Post> postListFull; // Filtreleme için orijinal veri listesi
+    private List<Post> postListFull;
 
     public PostAdapter(List<Post> postList) {
         this.postList = postList;
-        this.postListFull = new ArrayList<>(postList); // Klon oluştur
+        this.postListFull = new ArrayList<>(postList);
     }
 
     @NonNull

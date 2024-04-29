@@ -19,8 +19,8 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 public class MainActivity extends AppCompatActivity {
     private BottomNavigationView bottomNavigationView;
 
-    private FragmentUserPage fragment1;
-    private FragmentHomePage fragment2;
+    private FragmentHomePage fragment1;
+    private FragmentUserPage fragment2;
     private FragmentSettings fragment3;
 
 
@@ -35,8 +35,8 @@ public class MainActivity extends AppCompatActivity {
 
         bottomNavigationView = findViewById(R.id.bottom_navigation);
 
-        fragment1 = new FragmentUserPage();
-        fragment2 = new FragmentHomePage();
+        fragment1 = new FragmentHomePage();
+        fragment2 = new FragmentUserPage();
         fragment3 = new FragmentSettings();
 
         getSupportFragmentManager().beginTransaction()
@@ -58,7 +58,6 @@ public class MainActivity extends AppCompatActivity {
                         }
 
 
-                        // Seçilen fragment gösterilir
                         getSupportFragmentManager().beginTransaction()
                                 .replace(R.id.fragment_container, selectedFragment)
                                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)

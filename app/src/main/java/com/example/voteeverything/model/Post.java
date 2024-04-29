@@ -1,5 +1,6 @@
 package com.example.voteeverything.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Post {
@@ -65,5 +66,20 @@ public class Post {
 
     public void setComments(List<Comment> comments) {
         this.comments = comments;
+    }
+
+    public void addComment(Comment comment) {
+        if (comments == null) {
+            comments = new ArrayList<>();
+        }
+        comments.add(comment);
+    }
+
+    public boolean deleteComment(Comment comment) {
+        if (comments != null && comments.contains(comment)) {
+            comments.remove(comment);
+            return true;
+        }
+        return false;
     }
 }

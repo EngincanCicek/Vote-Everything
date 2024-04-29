@@ -34,4 +34,5 @@ public class User {
     public void setEmail(String email) {
         this.email = email;
     }
+    // TODO  PROFİL FOTOĞRAFI EKLENMELİ !
 }

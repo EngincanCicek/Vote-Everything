@@ -6,15 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".ui.LoginActivity">
 
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="lOGİN"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.522"
-        app:layout_constraintStart_toStartOf="parent" />
+
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardViewLoggin"
@@ -42,12 +34,16 @@
                 android:src="@drawable/google_icon" />
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="right"
-                android:gravity="center"
-                android:textSize="20sp"
-                tools:text="@string/login_button_text"/>
+                android:id="@+id/textView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Continue with Google"
+                android:textSize="24sp"
+                android:layout_gravity="center"
+                android:textColor="@android:color/black"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
 
 
         </LinearLayout>

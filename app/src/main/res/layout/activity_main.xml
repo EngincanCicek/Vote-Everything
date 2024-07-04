@@ -7,7 +7,6 @@
     tools:context=".ui.MainActivity">
 
 
-
     <FrameLayout
         android:id="@+id/fragment_container"
         android:layout_width="0dp"

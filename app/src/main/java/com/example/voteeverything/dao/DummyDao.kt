@@ -1,17 +1,20 @@
 package com.example.voteeverything.dao
 
 import com.example.voteeverything.model.Comment
+import com.example.voteeverything.model.Post
 import com.example.voteeverything.model.User
 import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
 
+
 class DummyDao {
 
-    // Initialize Firebase Firestore
     private val db = FirebaseFirestore.getInstance()
-    private val usersCollection = db.collection("Users") // Firestore koleksiyonu
-    private val commentsCollection = db.collection("Comments") // Firestore koleksiyonu
+    private val commentsCollection = db.collection("Comments")
+    private val postsCollection = db.collection("Posts")
+    private val usersCollection = db.collection("Users")
+
 
     fun createUser(user: User) {
         // Firestore'da belge oluştururken otomatik olarak bir kimlik (ID) atanır
@@ -24,32 +27,78 @@ class DummyDao {
             }
     }
 
-    fun createComment(comment: Comment): Task<Void> {
-        val document = commentsCollection.document() // Otomatik olarak yeni bir belge oluşturur
-        comment.commentId = document.id // Yorum nesnesine otomatik atanan belge ID'sini set et
-        return document.set(comment) // Firestore'daki belgeyi yükle
+
+    fun createComment(comment: Comment) {
+        commentsCollection.document()
+            .set(comment)
+            .addOnSuccessListener { documentReference ->
+                println("Yorum başarıyla eklendi ")
+            }
+            .addOnFailureListener { e ->
+                println("Yorum eklenirken hata oluştu: ${e.message}")
+            }
     }
 
-
-    // Tüm yorumları getiren fonksiyon
-    fun getAllComments(callback: (ArrayList<Comment>?, Exception?) -> Unit) {
-        commentsCollection.get()
-            .addOnSuccessListener { querySnapshot: QuerySnapshot? ->
-                if (querySnapshot != null) {
-                    val commentsList = ArrayList<Comment>()
-                    for (document in querySnapshot.documents) {
+    fun getAllComments(): Task<List<Comment>> {
+        return commentsCollection.get()
+            .continueWith { task ->
+                val commentsList = mutableListOf<Comment>()
+                val querySnapshot = task.result
+                querySnapshot?.let {
+                    for (document in it.documents) {
                         val comment = document.toObject(Comment::class.java)
-                        if (comment != null) {
-                            commentsList.add(comment)
+                        comment?.let {
+                            commentsList.add(it)
                         }
                     }
-                    callback(commentsList, null)
+                }
+                commentsList
+            }
+    }
+    fun getUserPosts(userId: String?): Task<List<Post>> {
+        val postsList = mutableListOf<Post>()
+
+        // Firestore sorgusunu oluştur
+        val query = postsCollection.whereEqualTo("userId", userId)
+
+        // Sorguyu gerçekleştir ve Task'i döndür
+        return query.get()
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    val querySnapshot = task.result
+                    querySnapshot?.let {
+                        for (document in it.documents) {
+                            val post = document.toObject(Post::class.java)
+                            post?.let {
+                                postsList.add(it)
+                            }
+                        }
+                    }
                 } else {
-                    callback(null, Exception("QuerySnapshot is null"))
+                    // Hata durumunu burada ele alabiliriz
+                    // Örneğin: Loglama veya hata mesajı gösterme
+                    task.exception?.let { e ->
+                        println("getUserPosts Error: ${e.message}")
+                    }
                 }
             }
-            .addOnFailureListener { e: Exception ->
-                callback(null, e)
+            .continueWith {
+                postsList
+            }
+    }
+
+    fun getAllPosts(): Task<List<Post>>? {
+        val postsList: MutableList<Post> = ArrayList()
+        return db.collection("Posts")
+            .get()
+            .continueWith<List<Post>> { task: Task<QuerySnapshot?> ->
+                val querySnapshot = task.result
+                if (querySnapshot != null) {
+                    for (post in querySnapshot.toObjects(Post::class.java)) {
+                        postsList.add(post)
+                    }
+                }
+                postsList
             }
     }
 

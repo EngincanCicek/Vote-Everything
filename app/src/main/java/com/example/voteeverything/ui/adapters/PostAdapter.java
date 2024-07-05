@@ -1,5 +1,7 @@
 package com.example.voteeverything.ui.adapters;
 
+import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.voteeverything.R;
 import com.example.voteeverything.model.Post;
+import com.example.voteeverything.ui.PostActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,10 +23,12 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
 
     private List<Post> postList;
     private List<Post> postListFull;
+    private Context context;
 
-    public PostAdapter(List<Post> postList) {
+    public PostAdapter(List<Post> postList, Context context) {
         this.postList = postList;
         this.postListFull = new ArrayList<>(postList);
+        this.context = context;
     }
 
     @NonNull
@@ -37,6 +42,13 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
     public void onBindViewHolder(@NonNull PostViewHolder holder, int position) {
         Post post = postList.get(position);
         holder.bind(post);
+
+        holder.itemView.setOnClickListener(v -> {
+            // Handle item click
+            Intent intent = new Intent(context, PostActivity.class);
+            intent.putExtra("postId", post.getPostId()); // postId'i intent e ekleyerek gönder
+            context.startActivity(intent);
+        });
     }
 
     @Override

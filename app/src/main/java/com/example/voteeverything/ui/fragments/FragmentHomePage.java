@@ -1,6 +1,5 @@
 package com.example.voteeverything.ui.fragments;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,7 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.voteeverything.R;
-import com.example.voteeverything.model.DummyPostCreatorForTest;
+import com.example.voteeverything.dao.DummyDao;
 import com.example.voteeverything.model.Post;
 import com.example.voteeverything.ui.adapters.PostAdapter;
 
@@ -25,25 +24,35 @@ public class FragmentHomePage extends Fragment {
     private RecyclerView recyclerView;
     private List<Post> itemList;
     private PostAdapter adapter;
+    private DummyDao dummyDao;
 
-    public FragmentHomePage() {}
+    public FragmentHomePage() {
+        dummyDao = new DummyDao();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home_page, container, false);
 
-
         searchView = view.findViewById(R.id.searchView);
         recyclerView = view.findViewById(R.id.recyclerViewHome);
 
-
-
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         itemList = new ArrayList<>();
-        itemList.addAll(DummyPostCreatorForTest.createDummyPosts());
 
-        adapter = new PostAdapter(itemList);
+        // DummyDao üzerinden Firestore'dan postları çek
+        dummyDao.getAllPosts().addOnSuccessListener(posts -> {
+            itemList.clear();
+            itemList.addAll(posts);
+            adapter.notifyDataSetChanged();
+        }).addOnFailureListener(e -> {
+            // Hata durumunda kullanıcıya bilgi verebilirsiniz
+            // Örneğin: Toast mesajı gösterebilir veya loglayabilirsiniz
+            e.printStackTrace();
+        });
+
+        adapter = new PostAdapter(itemList, getContext());
         recyclerView.setAdapter(adapter);
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {

@@ -36,7 +36,7 @@ public class FragmentUserPage extends Fragment {
 
         userPostsRecyclerView = view.findViewById(R.id.userPostsRecyclerView);
 
-        user = new User("id","Kullanıcı Adı", null); // Kullanıcı adı ve resmi buraya eklenebilir
+        user = new User("id","Kullanıcı Adı", null, null); // Kullanıcı adı ve resmi buraya eklenebilir
 
         textViewName.setText(user.getUserName());
         loadUserPosts();

@@ -1,14 +1,20 @@
 package com.example.voteeverything.model;
 
+import java.util.ArrayList;
+
 public class User {
     private String userId;
     private String userName;
     private String email;
 
-    public User(String userId, String userName, String email) {
+    private ArrayList<String> usersPostIDs;
+
+    public User(String userId, String userName, String email, ArrayList<String> usersPostIDs) {
         this.userId = userId;
         this.userName = userName;
         this.email = email;
+        this.usersPostIDs = new ArrayList<>();
+
     }
 
     public String getUserId() {
@@ -34,5 +40,12 @@ public class User {
     public void setEmail(String email) {
         this.email = email;
     }
-    // TODO  PROFİL FOTOĞRAFI EKLENMELİ !
+
+    public ArrayList<String> getUsersPostIDs() {
+        return usersPostIDs;
+    }
+
+    public void setUsersPostIDs(ArrayList<String> usersPostIDs) {
+        this.usersPostIDs = usersPostIDs;
+    }
 }

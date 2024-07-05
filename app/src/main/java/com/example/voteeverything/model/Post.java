@@ -9,15 +9,19 @@ public class Post {
     private String title;
     private String content;
     private double rating;
+
+    private int rateCount;
+
     private List<com.example.voteeverything.model.Comment> comments;
 
-    public Post(String postId, String userId, String title, String content, double rating, List<Comment> comments) {
+    public Post(String postId, String userId, String title, String content, double rating, List<Comment> comments, int rateCount) {
         this.postId = postId;
         this.userId = userId;
         this.title = title;
         this.content = content;
         this.rating = rating;
         this.comments = comments;
+        this.rateCount = rateCount;
     }
 
     public String getPostId() {
@@ -68,12 +72,21 @@ public class Post {
         this.comments = comments;
     }
 
+    public int getRateCount() {
+        return rateCount;
+    }
+
+    public void setRateCount(int rateCount) {
+        this.rateCount = rateCount;
+    }
+
     public void addComment(Comment comment) {
         if (comments == null) {
             comments = new ArrayList<>();
         }
         comments.add(comment);
     }
+
 
     public boolean deleteComment(Comment comment) {
         if (comments != null && comments.contains(comment)) {

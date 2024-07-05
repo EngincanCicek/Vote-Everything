@@ -19,7 +19,8 @@ public class DummyPostCreatorForTest {
                     "Post Başlığı " + (i + 1),
                     "Post İçeriği " + (i + 1),
                     i + 1,
-                    new ArrayList<>()
+                    new ArrayList<>(),
+                    0
             );
 
             Comment comment = createDummyComment(user);
@@ -43,6 +44,6 @@ public class DummyPostCreatorForTest {
 
 
     private static User createDummyUser() {
-        return new User("idd","namee","email@.com");
+        return new User("idd","namee","email@.com",null);
     }
 }

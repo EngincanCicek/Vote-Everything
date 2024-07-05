@@ -10,4 +10,10 @@
 
     <color name="gradientstart">#4E65FF</color>
     <color name="gradientend">#92EFFD</color>
+
+
+    <color name="blue">#459DE4</color>
+    <color name="red">#FF0000</color>
+
+
 </resources>

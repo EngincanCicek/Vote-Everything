@@ -13,13 +13,12 @@ import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
+import com.example.voteeverything.R;
+import com.example.voteeverything.ui.SplashActivity;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.firebase.auth.FirebaseAuth;
-
-import com.example.voteeverything.R;
-import com.example.voteeverything.ui.SplashActivity;
 
 public class FragmentSettings extends Fragment {
 
@@ -56,7 +55,9 @@ public class FragmentSettings extends Fragment {
         textViewDeleteAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Handle delete account functionality
+
+                deleteAllUsersFromFirestore();
+
             }
         });
 
@@ -75,6 +76,30 @@ public class FragmentSettings extends Fragment {
         });
 
         return view;
+    }
+
+    private void deleteAllUsersFromFirestore() {
+        /* Firestore'dan tüm kullanıcıları al ve her birini sil
+        DummyDao dummyDao = new DummyDao();
+        dummyDao.getAllUsers()
+                .addOnSuccessListener(users -> {
+                    for (User user : users) {
+                        dummyDao.deleteUser(user.getUserId())
+                                .addOnSuccessListener(aVoid -> {
+                                    // Kullanıcı başarıyla silindi
+                                    Toast.makeText(requireContext(), "Kullanıcı başarıyla silindi!", Toast.LENGTH_SHORT).show();
+                                })
+                                .addOnFailureListener(e -> {
+                                    // Kullanıcı silinirken hata oluştu
+                                    Toast.makeText(requireContext(), "Kullanıcı silinirken hata oluştu: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                });
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    // Kullanıcıları alırken hata oluştu
+                    Toast.makeText(requireContext(), "Kullanıcılar alınırken hata oluştu: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                }); */
+
     }
 
     private void configureGoogleSignIn() {

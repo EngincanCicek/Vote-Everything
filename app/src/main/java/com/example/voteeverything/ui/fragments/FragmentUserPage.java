@@ -15,17 +15,20 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.voteeverything.R;
+import com.example.voteeverything.StaticShorCut;
 import com.example.voteeverything.dao.DummyDao;
 import com.example.voteeverything.model.User;
 import com.example.voteeverything.ui.PostActivity;
 import com.example.voteeverything.ui.adapters.PostAdapter;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class FragmentUserPage extends Fragment {
 
-    TextView textViewName;
+    private TextView textViewName;
     private RecyclerView userPostsRecyclerView;
     private PostAdapter postAdapter;
-    private User user;
     private DummyDao dummyDao;
 
     private ImageView imageView;
@@ -48,30 +51,39 @@ public class FragmentUserPage extends Fragment {
         userPostsRecyclerView = view.findViewById(R.id.userPostsRecyclerView);
         imageView = view.findViewById(R.id.imageViewButton);
 
-        user = new User("id","Kullanıcı Adı", null, null); // Kullanıcı adı ve resmi buraya eklenebilir
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser != null) {
+            dummyDao.getUser(currentUser.getUid())
+                    .addOnSuccessListener(new OnSuccessListener<User>() {
+                        @Override
+                        public void onSuccess(User user) {
+                            if (user != null) {
+                                textViewName.setText(user.getUserName());
+                                loadAllPosts();
+                            } else {
+                                textViewName.setText(StaticShorCut.DEFAULTNAME);
+                            }
+                        }
+                    })
+                    .addOnFailureListener(e -> {
+                        Toast.makeText(getContext(), "Kullanıcı bilgileri alınamadı: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    });
+        }
 
-        textViewName.setText(user.getUserName());
-        loadUserPosts();
-
-        imageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startPostCreationActivity();
-            }
-        });
+        imageView.setOnClickListener(v -> startPostCreationActivity());
 
         return view;
     }
 
-    private void loadUserPosts() {
-        dummyDao.getUserPosts(user.getUserId())
+    private void loadAllPosts() {
+        dummyDao.getAllPosts()
                 .addOnSuccessListener(posts -> {
                     userPostsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
                     postAdapter = new PostAdapter(posts, getContext());
                     userPostsRecyclerView.setAdapter(postAdapter);
                 })
                 .addOnFailureListener(e -> {
-                    Toast.makeText(getContext(), "Kullanıcı postları yüklenirken hata oluştu: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Postlar yüklenirken hata oluştu: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                 });
     }
 

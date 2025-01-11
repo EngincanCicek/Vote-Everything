@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "149582658142",
+    "project_id": "vote-everything-31b3b",
+    "storage_bucket": "vote-everything-31b3b.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:149582658142:android:ca572f5c78f3cbc02ad2cf",
+        "android_client_info": {
+          "package_name": "com.example.voteeverything"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBsh1SnvbnjCdEwgbmrn92mwHZk7NTUnr8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

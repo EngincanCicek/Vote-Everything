@@ -1,6 +1,0 @@
-<resources>
-    <string name="app_name">Vote Everything</string>
-    <string name="login_button_text">Continue with Google</string>
-    <string name="rating_text">Rating: %1$.2f (%2$d votes)</string>
-
-</resources>
